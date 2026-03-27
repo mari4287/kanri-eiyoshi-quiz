@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理栄養士 国家試験対策クイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-50: #EAF3DE;
+    --green-100: #C0DD97;
+    --green-600: #3B6D11;
+    --green-700: #27500A;
+    --red-50: #FCEBEB;
+    --red-600: #A32D2D;
+    --amber-50: #FAEEDA;
+    --amber-600: #854F0B;
+    --gray-100: #F5F4F0;
+    --gray-200: #E8E6DF;
+    --gray-400: #9A9890;
+    --gray-700: #3A3A38;
+    --gray-900: #1C1C1A;
+    --accent: #1D9E75;
+    --accent-dark: #0F6E56;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-900);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 99px;
+    margin-bottom: 0.75rem;
+  }
+
+  header h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 600;
+    color: var(--gray-900);
+    line-height: 1.4;
+  }
+
+  header p {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    color: var(--gray-400);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 660px;
+  }
+
+  /* Progress */
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 13px;
+    color: var(--gray-400);
+  }
+
+  .progress-bar {
+    height: 5px;
+    background: var(--gray-200);
+    border-radius: 99px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* Card */
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .q-category {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .q-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray-900);
+    margin-bottom: 1.5rem;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-900);
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--green-50);
+    transform: translateY(-1px);
+  }
+
+  .option-btn:disabled { cursor: default; transform: none; }
+
+  .option-btn .label {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-400);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .option-btn.correct { border-color: #3B6D11; background: var(--green-50); }
+  .option-btn.correct .label { background: var(--accent); color: #fff; }
+
+  .option-btn.wrong { border-color: #E24B4A; background: var(--red-50); }
+  .option-btn.wrong .label { background: #E24B4A; color: #fff; }
+
+  .option-btn.reveal { border-color: #3B6D11; background: var(--green-50); }
+  .option-btn.reveal .label { background: var(--accent); color: #fff; }
+
+  /* Explanation */
+  .explanation {
+    margin-top: 1.25rem;
+    padding: 14px 16px;
+    background: #F7F9F4;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--gray-700);
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .explanation.show { display: block; }
+
+  .explanation strong {
+    color: var(--green-600);
+    font-weight: 700;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Next button */
+  .next-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: none;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.05em;
+  }
+
+  .next-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .next-btn:active { transform: translateY(0); }
+  .next-btn.show { display: block; animation: fadeIn 0.25s ease; }
+
+  /* Result */
+  .result {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .result-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+
+  .result-score {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .result-total {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-top: 2px;
+  }
+
+  .result-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .result-msg {
+    font-size: 14px;
+    color: var(--gray-400);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .result-badge {
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+  }
+
+  .badge-good { background: var(--green-50); color: var(--green-600); }
+  .badge-ok   { background: var(--amber-50); color: var(--amber-600); }
+  .badge-low  { background: var(--red-50);   color: var(--red-600); }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-secondary {
+    padding: 12px 24px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    background: #fff;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); background: var(--green-50); color: var(--accent-dark); }
+
+  .btn-primary {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-primary:hover { background: var(--accent-dark); }
+
+  footer {
+    margin-top: 3rem;
+    font-size: 12px;
+    color: var(--gray-400);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">国家試験対策</div>
+  <h1>管理栄養士<br>クイズ</h1>
+  <p>基礎栄養学・臨床栄養・食事摂取基準</p>
+</header>
+
+<div class="container">
+  <div id="quiz-root"></div>
+</div>
+
+<footer>問題はランダムに出題されます。解説をよく読んで理解を深めましょう。</footer>
+
+<script>
+const questions = [
+  {
+    category: "食事摂取基準",
+    q: "日本人の食事摂取基準（2020年版）において、成人女性（18〜64歳）の推定エネルギー必要量（身体活動レベルⅡ）はどれか。",
+    options: ["1,650 kcal/日", "2,000 kcal/日", "1,800 kcal/日", "2,200 kcal/日"],
+    answer: 1,
+    explanation: "身体活動レベルⅡ（ふつう）の18〜64歳女性の推定エネルギー必要量は<strong>2,000 kcal/日</strong>です。男性は2,650 kcal/日が目安となっています。"
+  },
+  {
+    category: "基礎栄養学",
+    q: "たんぱく質の栄養価を評価する際に用いられる「アミノ酸スコア」の算出に使われる基準はどれか。",
+    options: ["鶏卵たんぱく質", "牛乳たんぱく質", "FAO/WHO/UNUの評点パターン", "大豆たんぱく質"],
+    answer: 2,
+    explanation: "アミノ酸スコアは<strong>FAO/WHO/UNUが設定した必須アミノ酸の評点パターン</strong>を用いて算出します。食品中の第一制限アミノ酸の量を基準値と比較して求めます。"
+  },
+  {
+    category: "基礎栄養学",
+    q: "脂質の消化・吸収に関する記述として正しいのはどれか。",
+    options: ["トリグリセリドは胃で完全に消化される", "胆汁酸は脂質の消化酵素として働く", "脂肪酸とモノグリセリドはミセルを形成して吸収される", "長鎖脂肪酸は門脈を経て肝臓に運ばれる"],
+    answer: 2,
+    explanation: "長鎖脂肪酸とモノグリセリドは、胆汁酸と<strong>混合ミセルを形成</strong>して小腸から吸収されます。長鎖脂肪酸は門脈ではなく<strong>リンパ管（乳糜管）</strong>を経て運ばれます。"
+  },
+  {
+    category: "ビタミン",
+    q: "次のうち、水溶性ビタミンはどれか。",
+    options: ["ビタミンA", "ビタミンD", "ビタミンK", "ビタミンB12"],
+    answer: 3,
+    explanation: "<strong>ビタミンB12（コバラミン）</strong>は水溶性ビタミンです。ビタミンA・D・E・Kは脂溶性ビタミンです。水溶性ビタミンにはB群とビタミンCが含まれます。"
+  },
+  {
+    category: "臨床栄養学",
+    q: "糖尿病の食事療法に関する記述として正しいのはどれか。",
+    options: ["エネルギー摂取量の制限は不要である", "炭水化物の摂取は完全に制限する", "食物繊維は血糖上昇を緩やかにする効果がある", "間食を積極的に勧める"],
+    answer: 2,
+    explanation: "<strong>食物繊維</strong>は糖の吸収を遅らせ、食後血糖値の上昇を緩やかにする効果があります。炭水化物を完全に禁止するのではなく、適切な量と質を選ぶことが推奨されます。"
+  },
+  {
+    category: "ミネラル",
+    q: "骨粗鬆症の予防に最も関連するミネラルの組み合わせはどれか。",
+    options: ["鉄・亜鉛", "カルシウム・リン", "ナトリウム・カリウム", "マグネシウム・銅"],
+    answer: 1,
+    explanation: "骨の主成分はハイドロキシアパタイト（リン酸カルシウム）であり、<strong>カルシウムとリン</strong>が骨形成に最も重要です。骨粗鬆症予防の観点から十分なカルシウム摂取が推奨されています。"
+  },
+  {
+    category: "母子栄養",
+    q: "母乳に関する記述として誤りはどれか。",
+    options: ["初乳は免疫グロブリン（IgA）を多く含む", "母乳はビタミンKが不足しやすい", "母乳栄養児は人工栄養児より鉄欠乏になりにくい", "母乳は乳児にとって最適な栄養源とされる"],
+    answer: 2,
+    explanation: "母乳は鉄含量が比較的少なく、<strong>母乳栄養児は鉄欠乏になりやすい</strong>とされています。生後6か月頃から離乳食からの鉄補給が必要です。他の選択肢（初乳のIgA・ビタミンK不足・最適栄養源）はすべて正しい記述です。"
+  },
+  {
+    category: "基礎栄養学",
+    q: "クレブス回路（TCAサイクル）に直接関与するビタミンはどれか。",
+    options: ["ビタミンC", "ビタミンB1（チアミン）", "ビタミンD", "ビタミンA"],
+    answer: 1,
+    explanation: "<strong>ビタミンB1（チアミン）</strong>はピルビン酸デヒドロゲナーゼ複合体の補酵素として機能し、ピルビン酸→アセチルCoA変換（TCAサイクルへの入口）に必須です。B1欠乏は脚気の原因となります。"
+  }
+];
+
+let shuffled = [], current = 0, score = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function start() {
+  shuffled = shuffle(questions);
+  current = 0; score = 0;
+  render();
+}
+
+function render() {
+  const root = document.getElementById('quiz-root');
+  if (current >= shuffled.length) { renderResult(root); return; }
+  const q = shuffled[current];
+  const pct = Math.round((current / shuffled.length) * 100);
+  const labels = ['ア','イ','ウ','エ'];
+
+  root.innerHTML = `
+    <div class="progress-row">
+      <span>問題 ${current + 1} / ${shuffled.length}</span>
+      <span>正解 ${score} 問</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="pbar" style="width:${pct}%"></div></div>
+    <div class="card">
+      <div class="q-category">${q.category}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="opts">
+        ${q.options.map((opt, i) => `
+          <button class="option-btn" onclick="select(${i})" id="opt-${i}">
+            <span class="label">${labels[i]}</span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="explanation" id="expl">${q.explanation}</div>
+    </div>
+    <button class="next-btn" id="next-btn" onclick="next()">
+      ${current + 1 < shuffled.length ? '次の問題へ →' : '結果を見る →'}
+    </button>
+  `;
+}
+
+function select(idx) {
+  const q = shuffled[current];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[q.answer].classList.add('reveal');
+  if (idx === q.answer) { btns[idx].classList.add('correct'); score++; }
+  else { btns[idx].classList.add('wrong'); }
+  document.getElementById('expl').classList.add('show');
+  const nb = document.getElementById('next-btn');
+  nb.classList.add('show');
+}
+
+function next() { current++; render(); }
+
+function renderResult(root) {
+  const pct = Math.round((score / shuffled.length) * 100);
+  const badge = pct >= 80
+    ? '<span class="result-badge badge-good">合格圏内！</span>'
+    : pct >= 60
+    ? '<span class="result-badge badge-ok">もう少し！</span>'
+    : '<span class="result-badge badge-low">要復習</span>';
+  const msg = pct >= 80
+    ? '素晴らしい結果です！この調子で本番も頑張ってください。'
+    : pct >= 60
+    ? '基礎はできています。苦手な分野を重点的に復習しましょう。'
+    : '基礎から丁寧に復習しましょう。繰り返し解くことが大切です。';
+
+  root.innerHTML = `
+    <div class="card result">
+      <div class="result-circle">
+        <div class="result-score">${score}</div>
+        <div class="result-total">${shuffled.length}問中</div>
+      </div>
+      ${badge}
+      <div class="result-title">正答率 ${pct}%</div>
+      <div class="result-msg">${msg}</div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="start()">もう一度挑戦する</button>
+      </div>
+    </div>
+  `;
+}
+
+start();
+</script>
+</body>
+</html>

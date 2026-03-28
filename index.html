@@ -3,498 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>管理栄養士 国家試験対策クイズ</title>
+<title>食品化学Ⅰ 確認テスト</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --green-50: #EAF3DE;
-    --green-100: #C0DD97;
-    --green-600: #3B6D11;
-    --green-700: #27500A;
-    --red-50: #FCEBEB;
-    --red-600: #A32D2D;
-    --amber-50: #FAEEDA;
-    --amber-600: #854F0B;
-    --gray-100: #F5F4F0;
-    --gray-200: #E8E6DF;
-    --gray-400: #9A9890;
-    --gray-700: #3A3A38;
-    --gray-900: #1C1C1A;
-    --accent: #1D9E75;
-    --accent-dark: #0F6E56;
-  }
-
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-900);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 1rem 4rem;
-  }
-
-  header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
-
-  .header-badge {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    padding: 4px 14px;
-    border-radius: 99px;
-    margin-bottom: 0.75rem;
-  }
-
-  header h1 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: clamp(22px, 5vw, 32px);
-    font-weight: 600;
-    color: var(--gray-900);
-    line-height: 1.4;
-  }
-
-  header p {
-    margin-top: 0.5rem;
-    font-size: 14px;
-    color: var(--gray-400);
-  }
-
-  .container {
-    width: 100%;
-    max-width: 660px;
-  }
-
-  /* Progress */
-  .progress-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    font-size: 13px;
-    color: var(--gray-400);
-  }
-
-  .progress-bar {
-    height: 5px;
-    background: var(--gray-200);
-    border-radius: 99px;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 99px;
-    transition: width 0.5s cubic-bezier(.4,0,.2,1);
-  }
-
-  /* Card */
-  .card {
-    background: #fff;
-    border-radius: 16px;
-    border: 1px solid var(--gray-200);
-    padding: 1.75rem;
-    margin-bottom: 1rem;
-  }
-
-  .q-category {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 0.6rem;
-    text-transform: uppercase;
-  }
-
-  .q-text {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--gray-900);
-    margin-bottom: 1.5rem;
-  }
-
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .option-btn {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 10px;
-    background: #fff;
-    cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--gray-900);
-    text-align: left;
-    transition: border-color 0.15s, background 0.15s, transform 0.1s;
-  }
-
-  .option-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    background: var(--green-50);
-    transform: translateY(-1px);
-  }
-
-  .option-btn:disabled { cursor: default; transform: none; }
-
-  .option-btn .label {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--gray-400);
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .option-btn.correct { border-color: #3B6D11; background: var(--green-50); }
-  .option-btn.correct .label { background: var(--accent); color: #fff; }
-
-  .option-btn.wrong { border-color: #E24B4A; background: var(--red-50); }
-  .option-btn.wrong .label { background: #E24B4A; color: #fff; }
-
-  .option-btn.reveal { border-color: #3B6D11; background: var(--green-50); }
-  .option-btn.reveal .label { background: var(--accent); color: #fff; }
-
-  /* Explanation */
-  .explanation {
-    margin-top: 1.25rem;
-    padding: 14px 16px;
-    background: #F7F9F4;
-    border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0;
-    font-size: 13px;
-    line-height: 1.9;
-    color: var(--gray-700);
-    display: none;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .explanation.show { display: block; }
-
-  .explanation strong {
-    color: var(--green-600);
-    font-weight: 700;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Next button */
-  .next-btn {
-    width: 100%;
-    padding: 14px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    display: none;
-    transition: background 0.15s, transform 0.1s;
-    letter-spacing: 0.05em;
-  }
-
-  .next-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
-  .next-btn:active { transform: translateY(0); }
-  .next-btn.show { display: block; animation: fadeIn 0.25s ease; }
-
-  /* Result */
-  .result {
-    text-align: center;
-    padding: 2.5rem 1.5rem;
-  }
-
-  .result-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid var(--accent);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-  }
-
-  .result-score {
-    font-size: 36px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .result-total {
-    font-size: 13px;
-    color: var(--gray-400);
-    margin-top: 2px;
-  }
-
-  .result-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  .result-msg {
-    font-size: 14px;
-    color: var(--gray-400);
-    line-height: 1.8;
-    margin-bottom: 2rem;
-  }
-
-  .result-badge {
-    display: inline-block;
-    padding: 4px 16px;
-    border-radius: 99px;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 1.25rem;
-  }
-
-  .badge-good { background: var(--green-50); color: var(--green-600); }
-  .badge-ok   { background: var(--amber-50); color: var(--amber-600); }
-  .badge-low  { background: var(--red-50);   color: var(--red-600); }
-
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn-secondary {
-    padding: 12px 24px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 10px;
-    background: #fff;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--gray-700);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-  }
-
-  .btn-secondary:hover { border-color: var(--accent); background: var(--green-50); color: var(--accent-dark); }
-
-  .btn-primary {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    background: var(--accent);
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .btn-primary:hover { background: var(--accent-dark); }
-
-  footer {
-    margin-top: 3rem;
-    font-size: 12px;
-    color: var(--gray-400);
-    text-align: center;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #ffffff; --surface: #ffffff;
+  --border: #e5e5e5; --border2: #d0d0d0;
+  --text: #1a1a1a; --muted: #888;
+  --accent: #1a6b3c;
+  --green-bg: #f0f7f3; --green-bd: #a8d5b8; --green-tx: #1a6b3c;
+  --red-bg: #fdf2f2; --red-bd: #f0a0a0; --red-tx: #8b1a1a;
+}
+body { font-family:'Noto Sans JP',sans-serif; background:#fff; color:var(--text); min-height:100vh; padding:2rem 1rem 5rem; }
+.wrap { max-width:680px; margin:0 auto; }
+header { text-align:center; margin-bottom:2.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
+header h1 { font-family:'Noto Serif JP',serif; font-size:clamp(20px,5vw,28px); font-weight:600; line-height:1.5; color:var(--text); margin-bottom:.4rem; }
+header p { font-size:13px; color:var(--muted); }
+.pm { display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:6px; }
+.pb { height:3px; background:#eee; border-radius:99px; overflow:hidden; margin-bottom:1.5rem; }
+.pf { height:100%; background:var(--accent); border-radius:99px; transition:width .4s; }
+.card { background:#fff; border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin-bottom:1rem; }
+.qcat { font-size:11px; font-weight:700; color:var(--accent); margin-bottom:.75rem; letter-spacing:.05em; }
+.qtxt { font-family:'Noto Serif JP',serif; font-size:16px; line-height:1.9; margin-bottom:1.25rem; color:var(--text); }
+.opts { display:flex; flex-direction:column; gap:8px; }
+.opt { display:flex; align-items:flex-start; gap:10px; padding:12px 14px; border:1px solid var(--border2); border-radius:7px; background:#fff; cursor:pointer; font-family:'Noto Sans JP',sans-serif; font-size:14px; line-height:1.6; color:var(--text); text-align:left; transition:border-color .12s,background .12s; width:100%; }
+.opt:hover:not(:disabled) { border-color:var(--accent); background:var(--green-bg); }
+.opt:disabled { cursor:default; }
+.ol { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:#f5f5f5; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#888; transition:all .12s; margin-top:1px; }
+.opt.correct { border-color:var(--green-bd); background:var(--green-bg); }
+.opt.correct .ol { background:var(--accent); border-color:var(--accent); color:#fff; }
+.opt.wrong { border-color:var(--red-bd); background:var(--red-bg); }
+.opt.wrong .ol { background:#b94040; border-color:#b94040; color:#fff; }
+.opt.reveal { border-color:var(--green-bd); background:var(--green-bg); }
+.opt.reveal .ol { background:var(--accent); border-color:var(--accent); color:#fff; }
+.expl { margin-top:1rem; padding:12px 14px; background:#f8faf8; border-left:3px solid var(--accent); border-radius:0 6px 6px 0; font-size:13px; line-height:1.9; color:#444; display:none; }
+.expl.show { display:block; }
+.expl strong { color:var(--accent); font-weight:700; }
+.nb { width:100%; padding:13px; background:var(--accent); color:#fff; border:none; border-radius:7px; font-family:'Noto Sans JP',sans-serif; font-size:15px; font-weight:700; cursor:pointer; display:none; transition:opacity .15s; }
+.nb:hover { opacity:.85; }
+.nb.show { display:block; }
+.result { text-align:center; padding:2rem 1rem; }
+.rring { width:120px; height:120px; border-radius:50%; border:3px solid var(--accent); display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0 auto 1.25rem; }
+.rnum { font-size:38px; font-weight:700; color:var(--accent); line-height:1; }
+.rden { font-size:12px; color:var(--muted); margin-top:3px; }
+.rbadge { display:inline-block; padding:4px 16px; border-radius:99px; font-size:13px; font-weight:700; margin-bottom:.75rem; }
+.bs { background:var(--green-bg); color:var(--green-tx); border:1px solid var(--green-bd); }
+.ba { background:#eef4ff; color:#1a4ba0; border:1px solid #aac0e8; }
+.bb { background:#fff8ee; color:#7a4f00; border:1px solid #e8c97a; }
+.bc { background:var(--red-bg); color:var(--red-tx); border:1px solid var(--red-bd); }
+.rtitle { font-family:'Noto Serif JP',serif; font-size:20px; font-weight:600; margin-bottom:.4rem; }
+.rmsg { font-size:14px; color:var(--muted); line-height:1.8; margin-bottom:1.75rem; }
+.brow { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+.bg { padding:11px 24px; border:1px solid var(--border2); border-radius:7px; background:#fff; font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:500; color:var(--text); cursor:pointer; transition:border-color .12s,background .12s; }
+.bg:hover { border-color:var(--accent); background:var(--green-bg); }
+.flash { position:fixed; top:1.5rem; left:50%; transform:translateX(-50%); padding:8px 22px; border-radius:99px; font-size:13px; font-weight:700; z-index:100; animation:pin .25s ease, fout .3s ease 1.1s forwards; pointer-events:none; }
+.fok { background:#1a6b3c; color:#fff; }
+.fng { background:#8b1a1a; color:#fff; }
+@keyframes pin { from{opacity:0;transform:translateX(-50%) translateY(-4px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+@keyframes fout { to{opacity:0} }
+footer { text-align:center; margin-top:3rem; font-size:11px; color:#bbb; }
 </style>
 </head>
 <body>
-
+<div class="wrap">
 <header>
-  <div class="header-badge">国家試験対策</div>
-  <h1>管理栄養士<br>クイズ</h1>
-  <p>基礎栄養学・臨床栄養・食事摂取基準</p>
+  <h1>食品化学Ⅰ 確認テスト</h1>
+  <p>原子・結合・酸塩基・酸化還元・熱力学・水の化学　全範囲</p>
 </header>
-
-<div class="container">
-  <div id="quiz-root"></div>
+<div id="root"></div>
+<footer>食品化学Ⅰ ①〜⑥ 全範囲対応 · 問題はランダム出題</footer>
 </div>
-
-<footer>問題はランダムに出題されます。解説をよく読んで理解を深めましょう。</footer>
-
 <script>
-const questions = [
-  {
-    category: "食事摂取基準",
-    q: "日本人の食事摂取基準（2020年版）において、成人女性（18〜64歳）の推定エネルギー必要量（身体活動レベルⅡ）はどれか。",
-    options: ["1,650 kcal/日", "2,000 kcal/日", "1,800 kcal/日", "2,200 kcal/日"],
-    answer: 1,
-    explanation: "身体活動レベルⅡ（ふつう）の18〜64歳女性の推定エネルギー必要量は<strong>2,000 kcal/日</strong>です。男性は2,650 kcal/日が目安となっています。"
-  },
-  {
-    category: "基礎栄養学",
-    q: "たんぱく質の栄養価を評価する際に用いられる「アミノ酸スコア」の算出に使われる基準はどれか。",
-    options: ["鶏卵たんぱく質", "牛乳たんぱく質", "FAO/WHO/UNUの評点パターン", "大豆たんぱく質"],
-    answer: 2,
-    explanation: "アミノ酸スコアは<strong>FAO/WHO/UNUが設定した必須アミノ酸の評点パターン</strong>を用いて算出します。食品中の第一制限アミノ酸の量を基準値と比較して求めます。"
-  },
-  {
-    category: "基礎栄養学",
-    q: "脂質の消化・吸収に関する記述として正しいのはどれか。",
-    options: ["トリグリセリドは胃で完全に消化される", "胆汁酸は脂質の消化酵素として働く", "脂肪酸とモノグリセリドはミセルを形成して吸収される", "長鎖脂肪酸は門脈を経て肝臓に運ばれる"],
-    answer: 2,
-    explanation: "長鎖脂肪酸とモノグリセリドは、胆汁酸と<strong>混合ミセルを形成</strong>して小腸から吸収されます。長鎖脂肪酸は門脈ではなく<strong>リンパ管（乳糜管）</strong>を経て運ばれます。"
-  },
-  {
-    category: "ビタミン",
-    q: "次のうち、水溶性ビタミンはどれか。",
-    options: ["ビタミンA", "ビタミンD", "ビタミンK", "ビタミンB12"],
-    answer: 3,
-    explanation: "<strong>ビタミンB12（コバラミン）</strong>は水溶性ビタミンです。ビタミンA・D・E・Kは脂溶性ビタミンです。水溶性ビタミンにはB群とビタミンCが含まれます。"
-  },
-  {
-    category: "臨床栄養学",
-    q: "糖尿病の食事療法に関する記述として正しいのはどれか。",
-    options: ["エネルギー摂取量の制限は不要である", "炭水化物の摂取は完全に制限する", "食物繊維は血糖上昇を緩やかにする効果がある", "間食を積極的に勧める"],
-    answer: 2,
-    explanation: "<strong>食物繊維</strong>は糖の吸収を遅らせ、食後血糖値の上昇を緩やかにする効果があります。炭水化物を完全に禁止するのではなく、適切な量と質を選ぶことが推奨されます。"
-  },
-  {
-    category: "ミネラル",
-    q: "骨粗鬆症の予防に最も関連するミネラルの組み合わせはどれか。",
-    options: ["鉄・亜鉛", "カルシウム・リン", "ナトリウム・カリウム", "マグネシウム・銅"],
-    answer: 1,
-    explanation: "骨の主成分はハイドロキシアパタイト（リン酸カルシウム）であり、<strong>カルシウムとリン</strong>が骨形成に最も重要です。骨粗鬆症予防の観点から十分なカルシウム摂取が推奨されています。"
-  },
-  {
-    category: "母子栄養",
-    q: "母乳に関する記述として誤りはどれか。",
-    options: ["初乳は免疫グロブリン（IgA）を多く含む", "母乳はビタミンKが不足しやすい", "母乳栄養児は人工栄養児より鉄欠乏になりにくい", "母乳は乳児にとって最適な栄養源とされる"],
-    answer: 2,
-    explanation: "母乳は鉄含量が比較的少なく、<strong>母乳栄養児は鉄欠乏になりやすい</strong>とされています。生後6か月頃から離乳食からの鉄補給が必要です。他の選択肢（初乳のIgA・ビタミンK不足・最適栄養源）はすべて正しい記述です。"
-  },
-  {
-    category: "基礎栄養学",
-    q: "クレブス回路（TCAサイクル）に直接関与するビタミンはどれか。",
-    options: ["ビタミンC", "ビタミンB1（チアミン）", "ビタミンD", "ビタミンA"],
-    answer: 1,
-    explanation: "<strong>ビタミンB1（チアミン）</strong>はピルビン酸デヒドロゲナーゼ複合体の補酵素として機能し、ピルビン酸→アセチルCoA変換（TCAサイクルへの入口）に必須です。B1欠乏は脚気の原因となります。"
-  }
+const Q=[
+  {c:"原子・電子・分子",q:"原子核を構成する粒子の組み合わせとして正しいものはどれか。",o:["陽子と電子","陽子と中性子","電子と中性子","陽子・中性子・電子すべて"],a:1,e:"原子核は<strong>陽子と中性子</strong>から構成される。電子は原子核の周囲に存在するが、原子核の構成要素ではない。"},
+  {c:"原子・電子・分子",q:"ナトリウム原子（Na）が電離してNa⁺になるとき、電子はどうなるか。",o:["電子が1個加わる","電子が1個放出される","電子が2個放出される","電子数は変化しない"],a:1,e:"ナトリウムの最外殻電子は1個で、電離によりこれを<strong>放出</strong>してNa⁺となる。陽子11個・電子10個となり+1の電荷をもつ。"},
+  {c:"原子・電子・分子",q:"フントの規則の説明として正しいものはどれか。",o:["同じ軌道に同じ状態の電子は入れない","エネルギー準位の低い軌道から電子が入る","エネルギー準位が同じ軌道が複数ある場合、まず1個ずつ分散して入る","各軌道に最大2個まで電子が入る"],a:2,e:"<strong>フントの規則</strong>：エネルギー準位が同じ軌道（例：2p軌道の3種）が複数ある場合、電子はまず1個ずつ分散して入り、すべて埋まってから2個目が配置される。"},
+  {c:"原子・電子・分子",q:"p軌道の形として正しいものはどれか。",o:["球形","鉄アレイ（ダンベル）形","正四面体形","平面正方形"],a:1,e:"s軌道は<strong>球形</strong>、p軌道は<strong>鉄アレイ（ダンベル）形</strong>。2p軌道にはpx・py・pzの3種があり互いに直交している。エネルギー準位は3つとも同じである。"},
+  {c:"化学結合と極性",q:"オクテット則の説明として正しいものはどれか。",o:["最外殻に4個の価電子をもつと安定","最外殻に8個の価電子をもつと安定","すべての元素に適用できる","価電子が2個で安定する"],a:1,e:"<strong>オクテット則</strong>は「最外殻に8個の価電子をもつと元素は安定化する」という法則。s軌道とp軌道が合わせて8個の電子を収容できることに由来し、第3周期（Ca）までに適用できる。"},
+  {c:"化学結合と極性",q:"メタン（CH₄）の炭素がもつ混成軌道はどれか。",o:["sp混成軌道","sp²混成軌道","sp³混成軌道","pd混成軌道"],a:2,e:"メタンの炭素はs軌道1つとp軌道3つが混成した<strong>sp³混成軌道</strong>を形成する。4つのsp³混成軌道が正四面体の頂点方向に向かい、結合角は109.5度となる。"},
+  {c:"化学結合と極性",q:"炭素-炭素二重結合（C=C）の構造はどれか。",o:["σ結合2本","σ結合1本＋π結合1本","π結合2本","σ結合1本のみ"],a:1,e:"炭素間二重結合は<strong>σ結合1本とπ結合1本</strong>で構成される。π結合はσ結合より弱く外れやすい（反応しやすい）ため、水素付加などの反応が起きやすい。"},
+  {c:"化学結合と極性",q:"電気陰性度が最も大きい元素はどれか。",o:["酸素（O）","窒素（N）","塩素（Cl）","フッ素（F）"],a:3,e:"電気陰性度は周期表の右・上方ほど大きく、<strong>フッ素（F）が最大（4.0）</strong>。次いで酸素（3.5）、窒素・塩素（3.0）の順。電気陰性度は原子核の引力と最外殻の距離で決まる。"},
+  {c:"化学結合と極性",q:"次の官能基のうち、酸性を示すものはどれか。",o:["アミノ基（-NH₂）","カルボキシ基（-COOH）","ヒドロキシ基（-OH）","アルデヒド基（-CHO）"],a:1,e:"<strong>カルボキシ基（-COOH）</strong>は有機化合物の酸の性質を決める官能基で酸性を示す。アミノ基は塩基性を示す。ヒドロキシ基は電離せず極性をもつ。"},
+  {c:"化学結合と極性",q:"ジスルフィド基（-S-S-）はどの官能基が2つ結合してできるか。",o:["エステル基","アミド基","チオール基（-SH）","カルボニル基"],a:2,e:"<strong>ジスルフィド基（-S-S-）</strong>はチオール基（-SH）が2つ結合して形成される。タンパク質の立体構造維持に重要な役割を担う。"},
+  {c:"酸と塩基",q:"ブレンステッド・ローリーの定義における「塩基」の説明として正しいものはどれか。",o:["水中でOH⁻を生じる物質","H⁺（プロトン）を受け取る物質","電子対を受け取る物質","H⁺を放出する物質"],a:1,e:"<strong>ブレンステッド・ローリーの定義</strong>：酸は「H⁺を放出する物質」、塩基は「<strong>H⁺を受け取る物質</strong>」。水溶液以外にも適用できる点がアレニウスの定義と異なる。"},
+  {c:"酸と塩基",q:"pKaと酸の強さの関係として正しいものはどれか。",o:["pKaが大きいほど強酸","pKaが小さいほど強酸","pKaと酸の強さは無関係","pKaが0のとき最も強い酸"],a:1,e:"pKa = -logKaのため、<strong>pKaが小さいほど強酸</strong>。塩酸のpKaは-7、酢酸は4.8で、塩酸の方が圧倒的に強酸である。"},
+  {c:"酸と塩基",q:"酢酸イオン（CH₃COO⁻）の共鳴構造について正しい記述はどれか。",o:["一方の酸素のみに負電荷が局在する","2つの酸素に均等に負電荷が非局在化している","共鳴構造は実在の構造を正確に表す","共鳴構造は存在しない"],a:1,e:"酢酸イオンは2つの極限構造のどちらでもなく、<strong>負電荷が2つの酸素に均等に非局在化</strong>した共鳴混成体である。この共鳴安定化により酢酸（pKa 4.75）はエタノール（pKa 16）より強い酸となる。"},
+  {c:"酸と塩基",q:"ルイスの定義における「ルイス酸」の説明として正しいものはどれか。",o:["H⁺を放出する物質","OH⁻を放出する物質","電子対を受け取る物質","電子対を供与する物質"],a:2,e:"ルイスの定義では<strong>ルイス酸は「電子対を受け取る物質」</strong>、ルイス塩基は「電子対を供与する物質」。BF₃などはプロトンをもたないがルイス酸に分類される。"},
+  {c:"酸化と還元",q:"有機化学における炭素の酸化の定義として最も適切なものはどれか。",o:["電子を受け取ること","水素原子を得ること","酸素を受け取る・水素を失うことで電子密度が減少すること","原子価が減少すること"],a:2,e:"有機化学では<strong>炭素原子の電子密度の減少（酸素を受け取る・水素を失う）が酸化</strong>。電気陰性度の高い酸素が結合すると炭素から電子密度が奪われる（酸化度が増加）。"},
+  {c:"酸化と還元",q:"第一級アルコールを酸化すると最初にできる化合物はどれか。",o:["ケトン","カルボン酸","アルデヒド","エステル"],a:2,e:"<strong>第一級アルコール → アルデヒド → カルボン酸</strong>の順で酸化される。第二級アルコールはケトンまで、第三級アルコールは炭素上に水素がないため一般的に酸化されない。"},
+  {c:"酸化と還元",q:"還元剤の強さの順序として正しいものはどれか。",o:["NaBH₄ > LiBH₄ > LiAlH₄","LiAlH₄ > LiBH₄ > NaBH₄","LiBH₄ > LiAlH₄ > NaBH₄","NaBH₄ > LiAlH₄ > LiBH₄"],a:1,e:"還元力は<strong>LiAlH₄ > LiBH₄ > NaBH₄</strong>の順。NaBH₄はアルデヒド・ケトンのみを選択的に還元し、カルボン酸やアミドは還元しない。目的に応じて使い分ける。"},
+  {c:"熱力学と状態変化",q:"発熱反応におけるエンタルピー変化（ΔH°）の符号として正しいものはどれか。",o:["ΔH° > 0（正）","ΔH° < 0（負）","ΔH° = 0","ΔH°は符号をもたない"],a:1,e:"発熱反応では内部エネルギーが減少するため<strong>ΔH° < 0（負）</strong>。吸熱反応ではΔH° > 0（正）となる。結合エネルギーから反応のΔH°を概算できる。"},
+  {c:"熱力学と状態変化",q:"熱力学第二法則（エントロピー増大の法則）の説明として正しいものはどれか。",o:["エネルギー総量は一定に保たれる","エネルギーの自然な移動には方向性があり、エントロピーは増大する","低温から高温へのエネルギー移動が自然に起きる","混合した溶液は時間が経つと元に戻る"],a:1,e:"<strong>熱力学第二法則</strong>：「エントロピーは増大する」。熱は高温から低温へのみ自然に移動し、逆は起きない。混ざった溶液は自然に元に戻らない。エネルギー移動に方向性がある。"},
+  {c:"熱力学と状態変化",q:"凍結乾燥に利用される状態変化はどれか。",o:["蒸発","凝固","昇華","融解"],a:2,e:"凍結乾燥は物質を凍結させ、減圧して水分を<strong>昇華（固体→気体）</strong>させる操作。熱に弱い食品成分を変性させずに乾燥できる。カップラーメンの具材・即席味噌汁・ドライフルーツなどに利用。"},
+  {c:"熱力学と状態変化",q:"超臨界流体の特徴として正しいものはどれか。",o:["臨界点以下で生じる","液体の性質のみをもつ","臨界点を超えた温度・圧力で生じ、液体と気体の両方の性質をもつ","固体と液体の中間的な性質をもつ"],a:2,e:"<strong>超臨界流体</strong>は臨界点を超えた温度・圧力で生じ、物質溶解性（液体的）と高い拡散性（気体的）の両方の性質をもつ。超臨界CO₂はコーヒーのデカフェや香味成分の抽出に利用される。"},
+  {c:"水の化学・乳化・コロイド",q:"水に溶ける物質の特徴として正しいものはどれか。",o:["無極性の物質","分子量が大きい物質","極性をもつ物質","すべての有機化合物"],a:2,e:"水分子は<strong>極性</strong>をもつため、<strong>極性をもつ物質</strong>と溶媒和を形成して溶解できる。無極性物質は極性物質同士の結合に割って入れないため水に溶けにくい（疎水性）。"},
+  {c:"水の化学・乳化・コロイド",q:"牛乳やマヨネーズのエマルションの型はどれか。",o:["油中水滴型（W/O型）","水中油滴型（O/W型）","気体中液体型","固体中液体型"],a:1,e:"牛乳・マヨネーズ・生クリームは水の中に油が分散した<strong>水中油滴型（O/W型）</strong>。バター・マーガリンは油の中に水が分散した油中水滴型（W/O型）。改良型マーガリンはO/W/O型。"},
+  {c:"水の化学・乳化・コロイド",q:"ファントホッフの式（Π = MRT）において、浸透圧を決める主な要因はどれか。",o:["溶質の化学的性質（種類）","溶媒の種類","溶質のモル濃度（粒子数）","溶液の色や透明度"],a:2,e:"浸透圧は<strong>溶質の種類によらず、モル濃度（粒子数）</strong>によって決まる束一的性質。NaClはNa⁺とCl⁻に電離するため、同モルのスクロースの約2倍の浸透圧を示す。"},
+  {c:"水の化学・乳化・コロイド",q:"純水に溶質を溶かした場合の沸点と凝固点の変化（ラウールの法則）として正しいものはどれか。",o:["沸点↓・凝固点↑","沸点↑・凝固点↑","沸点↑・凝固点↓","変化しない"],a:2,e:"溶質を溶かすと蒸気圧が下がるため<strong>沸点は上昇（沸点上昇）</strong>、溶媒分子が凝固しにくくなるため<strong>凝固点は降下（凝固点降下）</strong>。変化量は溶質の粒子数（モル濃度）に比例する。"}
 ];
 
-let shuffled = [], current = 0, score = 0;
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function start() {
-  shuffled = shuffle(questions);
-  current = 0; score = 0;
-  render();
-}
-
-function render() {
-  const root = document.getElementById('quiz-root');
-  if (current >= shuffled.length) { renderResult(root); return; }
-  const q = shuffled[current];
-  const pct = Math.round((current / shuffled.length) * 100);
-  const labels = ['ア','イ','ウ','エ'];
-
-  root.innerHTML = `
-    <div class="progress-row">
-      <span>問題 ${current + 1} / ${shuffled.length}</span>
-      <span>正解 ${score} 問</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="pbar" style="width:${pct}%"></div></div>
+let pool=[],cur=0,sc=0;
+function sh(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function start(){pool=sh(Q);cur=0;sc=0;render();}
+function render(){
+  const r=document.getElementById('root');
+  if(cur>=pool.length){res(r);return;}
+  const q=pool[cur];
+  const pct=Math.round(cur/pool.length*100);
+  const L=['A','B','C','D'];
+  r.innerHTML=`
+    <div class="pm"><span>問題 ${cur+1} / ${pool.length}</span><span>正解 ${sc} 問</span></div>
+    <div class="pb"><div class="pf" style="width:${pct}%"></div></div>
     <div class="card">
-      <div class="q-category">${q.category}</div>
-      <div class="q-text">${q.q}</div>
-      <div class="options" id="opts">
-        ${q.options.map((opt, i) => `
-          <button class="option-btn" onclick="select(${i})" id="opt-${i}">
-            <span class="label">${labels[i]}</span>
-            <span>${opt}</span>
-          </button>
-        `).join('')}
+      <div class="qcat">${q.c}</div>
+      <div class="qtxt">${q.q}</div>
+      <div class="opts" id="opts">
+        ${q.o.map((o,i)=>`<button class="opt" onclick="pick(${i})" id="o${i}"><span class="ol">${L[i]}</span><span>${o}</span></button>`).join('')}
       </div>
-      <div class="explanation" id="expl">${q.explanation}</div>
+      <div class="expl" id="expl">${q.e}</div>
     </div>
-    <button class="next-btn" id="next-btn" onclick="next()">
-      ${current + 1 < shuffled.length ? '次の問題へ →' : '結果を見る →'}
-    </button>
-  `;
+    <button class="nb" id="nxt" onclick="nxt()">${cur+1<pool.length?'次の問題へ →':'結果を見る →'}</button>`;
 }
-
-function select(idx) {
-  const q = shuffled[current];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  btns[q.answer].classList.add('reveal');
-  if (idx === q.answer) { btns[idx].classList.add('correct'); score++; }
-  else { btns[idx].classList.add('wrong'); }
+function pick(i){
+  const q=pool[cur];
+  document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  document.getElementById('o'+q.a).classList.add('reveal');
+  if(i===q.a){document.getElementById('o'+i).classList.add('correct');sc++;fl('正解！','fok');}
+  else{document.getElementById('o'+i).classList.add('wrong');fl('不正解','fng');}
   document.getElementById('expl').classList.add('show');
-  const nb = document.getElementById('next-btn');
-  nb.classList.add('show');
+  document.getElementById('nxt').classList.add('show');
 }
-
-function next() { current++; render(); }
-
-function renderResult(root) {
-  const pct = Math.round((score / shuffled.length) * 100);
-  const badge = pct >= 80
-    ? '<span class="result-badge badge-good">合格圏内！</span>'
-    : pct >= 60
-    ? '<span class="result-badge badge-ok">もう少し！</span>'
-    : '<span class="result-badge badge-low">要復習</span>';
-  const msg = pct >= 80
-    ? '素晴らしい結果です！この調子で本番も頑張ってください。'
-    : pct >= 60
-    ? '基礎はできています。苦手な分野を重点的に復習しましょう。'
-    : '基礎から丁寧に復習しましょう。繰り返し解くことが大切です。';
-
-  root.innerHTML = `
-    <div class="card result">
-      <div class="result-circle">
-        <div class="result-score">${score}</div>
-        <div class="result-total">${shuffled.length}問中</div>
-      </div>
-      ${badge}
-      <div class="result-title">正答率 ${pct}%</div>
-      <div class="result-msg">${msg}</div>
-      <div class="btn-row">
-        <button class="btn-secondary" onclick="start()">もう一度挑戦する</button>
-      </div>
-    </div>
-  `;
+function fl(msg,cls){
+  const e=document.createElement('div');
+  e.className='flash '+cls;e.textContent=msg;
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),1600);
 }
-
+function nxt(){cur++;render();}
+function res(r){
+  const pct=Math.round(sc/pool.length*100);
+  let b,bc,t,m;
+  if(pct>=90){b='S ランク';bc='bs';t='完璧です！';m='全範囲をしっかり理解できています。試験本番でも自信をもって臨めましょう。';}
+  else if(pct>=70){b='A ランク';bc='ba';t='よくできました！';m='基礎はしっかり身についています。間違えた問題の解説を読み返して完璧を目指しましょう。';}
+  else if(pct>=50){b='B ランク';bc='bb';t='もう少し！';m='苦手な分野が見えてきました。レジメを読み直して、もう一度挑戦してみてください。';}
+  else{b='C ランク';bc='bc';t='要復習';m='基礎から丁寧に復習しましょう。各回のCheck Pointを中心に確認してください。';}
+  r.innerHTML=`
+    <div class="result">
+      <div class="rring"><div class="rnum">${sc}</div><div class="rden">${pool.length}問中</div></div>
+      <div class="rbadge ${bc}">${b} · 正答率 ${pct}%</div>
+      <div class="rtitle">${t}</div>
+      <div class="rmsg">${m}</div>
+      <div class="brow"><button class="bg" onclick="start()">もう一度挑戦</button></div>
+    </div>`;
+}
 start();
 </script>
 </body>
